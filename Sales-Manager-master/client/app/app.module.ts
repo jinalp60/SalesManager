@@ -5,16 +5,19 @@ import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
 import { HomePageComponent } from './home/home-page/home-page.component';
+import { AdminRoutingModule } from './admin/admin-routing.module';
+import { AdminPageComponent } from './admin/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HomePageComponent
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
     LoginModule,
+    AdminRoutingModule,
     AppRoutingModule
 
   ],
