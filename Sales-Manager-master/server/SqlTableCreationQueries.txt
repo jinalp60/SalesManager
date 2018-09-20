@@ -1,0 +1,2 @@
+CREATE DATABASE SalesManager;
+CREATE TABLE IF NOT EXISTS products (productId VARCHAR(255), productName VARCHAR(255),quantity INT,basePrice INT,minPrice INT,maxPrice INT,PRIMARY KEY(productId));

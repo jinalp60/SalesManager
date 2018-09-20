@@ -1,4 +1,27 @@
-<p>
+<!-- <p>
   admin-page works!
 </p>
-<a routerLink="/home" (click)="signOut()">Sign out</a>
+<a routerLink="/home" (click)="signOut()">Sign out</a> -->
+
+<div class="sidenav">
+  <img class="websiteLogoImg" src="../../../assets/sales-counter-transparent.png" />
+  <a href="javascript:void(0);" (click)="callShowSellProduct()">Sell Product</a>
+  <!--dropdown-->
+  <button class="dropdown-btn">Product Catalogue 
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a href="javascript:void(0);" (click)="callShowAddProduct()">Add Product</a>
+    <a href="javascript:void(0);">Product Details</a>
+  </div>
+  <!-- dropdown ends -->
+  <a href="javascript:void(0);">Client Details</a>
+  <a href="javascript:void(0);">Analyze Sell</a>
+  <a routerLink="/home" (click)="signOut()">Sign out</a>
+</div>
+
+<div class="main">
+  <app-add-product *ngIf="showAddProduct"></app-add-product>
+  <app-sell-product *ngIf="showSellProduct"></app-sell-product>
+  
+</div>

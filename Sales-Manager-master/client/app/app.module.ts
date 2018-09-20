@@ -3,25 +3,31 @@ import { NgModule } from '@angular/core';
 import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+import { FormsModule }   from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { HomePageComponent } from './home/home-page/home-page.component';
 import { AdminRoutingModule } from './admin/admin-routing.module';
-import { AdminPageComponent } from './admin/admin-page/admin-page.component';
+
+import { AdminModule } from './admin/admin.module';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomePageComponent,
-    AdminPageComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     LoginModule,
+    HomeModule,
+    AdminModule,
     AdminRoutingModule,
     AppRoutingModule
 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }
