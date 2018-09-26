@@ -10,10 +10,16 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
 
 import { AdminModule } from './admin/admin.module';
 import { HomeModule } from './home/home.module';
-
+import { AuthGuard } from './auth.guard';
+import { CheckAuthComponent } from './check-auth/check-auth.component';
+import { JwtModule } from '@auth0/angular-jwt';
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CheckAuthComponent
   ],
   imports: [
     BrowserModule,
@@ -23,10 +29,17 @@ import { HomeModule } from './home/home.module';
     HomeModule,
     AdminModule,
     AdminRoutingModule,
-    AppRoutingModule
+    AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8000'],
+        blacklistedRoutes: ['localhost:8000/api/auth']
+      }
+    })
 
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 
 })

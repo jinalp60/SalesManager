@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 var server=require('http').createServer(app);
+
+/*authentication*/
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 /*var io = require('socket.io')(server);
 var client;*/
 //redis caching mechanism
@@ -20,9 +24,11 @@ app.use(bodyParser.json({
 }));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "*");
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/api/auth']}));
 app.post('/addProduct',
     [check('productName').isLength({ min: 2 }),check('productId').isLength({ min: 1 })],
     function(req,res){
@@ -48,15 +54,41 @@ app.get('/searchProductByName',
             res.status(422).json({errors:errors.array()});
         }
         else{
-            var json = '{"result":true, "count":42}';
-            obj = JSON.parse(json);
-            console.log(obj.count);
             db_api.search_product_by_name(redis,req.query.productName).then(function(data){
                 console.log("results of search query:",data.productName);
                 res.status(200).json({result:data.productName});
             });
         }
 });
+
+app.post('/api/auth', function(req, res) {
+    const body = req.body;
+    console.log("bosy:",body);
+    /*const user = USERS.find(user => user.username == body.username);
+    if(!user || body.password != 'todo') return res.sendStatus(401);*/
+    if(body.username=='admin' && body.password=='admin'){
+        console.log("success if");
+        var token = jwt.sign({userID: 1}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
+        res.send({token});
+    }
+    else{
+        console.log("else error");
+        res.sendStatus(401);
+    }
+    
+    
+  });
+/* fresh code
+app.post('/api/auth', function(req, res) {
+  const body = req.body;
+
+  const user = USERS.find(user => user.username == body.username);
+  if(!user || body.password != 'todo') return res.sendStatus(401);
+  
+  var token = jwt.sign({userID: user.id}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
+  res.send({token});
+});
+*/
 /*
 io.on('connection', function (client_1) {
     client = client_1;

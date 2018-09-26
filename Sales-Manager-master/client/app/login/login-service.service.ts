@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {AuthService, GoogleLoginProvider, FacebookLoginProvider} from 'angular4-social-login';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServiceService {
   signInVarResult=false;
   user: any;
-  constructor(private authService: AuthService,private router: Router) { }
-
+  constructor(private authService: AuthService,private router: Router,private http: HttpClient) { }
+  getUser(){
+    return this.user;
+  }
   signInGoogleService(){
     console.log("google service called");
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
@@ -40,8 +45,28 @@ export class LoginServiceService {
     });
   }
   signOut(){
-    this.user=null;
+    if(this.user!=null){
+      console.log("signing out");
+      this.authService.signOut();
+      this.user=null;
+    }
+    
     console.log("print",this.user);
-    this.authService.signOut();
+    sessionStorage.removeItem('access_token');
+    
+    
+  }
+  authenticateUserLogin(username,password):Observable<boolean>{
+   
+    return this.http.post<{token: string}>('http://localhost:8000/api/auth', {username: username, password: password})
+      .pipe(
+        map(result => {
+          console.log("service result:",result);
+          sessionStorage.setItem('access_token', result.token);
+          return true;
+        })
+      );
+    
+      
   }
 }

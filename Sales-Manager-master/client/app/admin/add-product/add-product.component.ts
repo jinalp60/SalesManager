@@ -25,6 +25,7 @@ export class AddProductComponent implements OnInit {
     error=>{
       console.log("error");
     });
+    //resetting the form
     this.newProduct=new Product();
   }
 
