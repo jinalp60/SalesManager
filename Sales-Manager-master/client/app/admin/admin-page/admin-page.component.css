@@ -18,7 +18,7 @@
 }
 
   /* Style the sidenav links and the dropdown button */
-  .sidenav a, .dropdown-btn {
+  .sidenav a, .dropdown-btn-product, .dropdown-btn-client{
     padding: 10px 8px 6px 16px;
     text-decoration: none;
     font-size: 20px;

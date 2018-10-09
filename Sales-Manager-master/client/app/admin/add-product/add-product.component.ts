@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../Model/product';
-import { FormBuilder } from '@angular/forms';
+
 import { AdminServiceService } from '../admin-service.service';
 @Component({
   selector: 'app-add-product',
@@ -10,7 +10,7 @@ import { AdminServiceService } from '../admin-service.service';
 export class AddProductComponent implements OnInit {
 
   newProduct:Product=new Product();
-  constructor(private fb: FormBuilder,private adminService: AdminServiceService) { }
+  constructor(private adminService: AdminServiceService) { }
   
   ngOnInit() {
 

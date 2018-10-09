@@ -1,5 +1,6 @@
 var mysql = require('mysql');
-
+//var dateTime = require('node-datetime')
+var moment = require("moment");
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -25,6 +26,55 @@ var db_api={
             });
         });
             
+    },
+    insert_client_data:function(newClient){
+        return new Promise(function(resolve,reject){
+            var sql =   "INSERT INTO clients (clientName,phoneNo) VALUES ('"+newClient.clientName+"',"+newClient.phoneNo+")";
+            con.query(sql, function (err, result) {
+                if (err) {
+                    reject();
+                    throw err;
+                }
+                
+                resolve(result);
+                console.log("1 record inserted");
+            });
+        });
+            
+    },
+    insert_sell_product_data:function(sellProduct){
+        
+        let sellDate=moment().format("YYYY-MM-DD");
+        // let dt = dateTime.create();
+        // let formatted = dt.format('Y-m-d');
+        console.log("format:",sellDate);
+        return new Promise(function(resolve,reject){
+            var sql =   "INSERT INTO soldProducts (phoneNo,productName,quantity,sellingPrice,moneyPaid,sellDate) VALUES ("+sellProduct.phoneNo+",'"+sellProduct.productName+"',"+sellProduct.quantity+","+sellProduct.sellingPrice+","+sellProduct.moneyPaid+",'"+sellDate+"')";
+            con.query(sql, function (err, result) {
+                if (err) {
+                    reject();
+                    throw err;
+                }
+                
+                resolve(result);
+                console.log("1 record inserted");
+            });
+        });
+            
+    },
+    fetch_product_details:function(){
+        return new Promise(function(resolve,reject){
+            var sql =   "SELECT * from products";
+            con.query(sql, function (err, result) {
+                if (err) {
+                    reject();
+                    throw err;
+                }
+                
+                resolve(result);
+                console.log("product details fetched");
+            });
+        });
     },
     search_product_by_name:function(redis,productName){
 

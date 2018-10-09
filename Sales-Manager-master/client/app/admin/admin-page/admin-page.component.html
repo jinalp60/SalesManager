@@ -5,23 +5,31 @@
 
 <div class="sidenav">
   <img class="websiteLogoImg" src="../../../assets/sales-counter-transparent.png" />
-  <a href="javascript:void(0);" (click)="callShowSellProduct()">Sell Product</a>
+  <a routerLink="/admin/sellProduct">Sell Product</a>
   <!--dropdown-->
-  <button class="dropdown-btn">Product Catalogue 
+  <button class="dropdown-btn-product">Product Catalogue 
     <i class="fa fa-caret-down"></i>
   </button>
   <div class="dropdown-container">
-    <a href="javascript:void(0);" (click)="callShowAddProduct()">Add Product</a>
-    <a href="javascript:void(0);">Product Details</a>
+    <a routerLink="/admin/addProduct">Add Product</a>
+    <a routerLink="/admin/productDetails">Product Details</a>
   </div>
   <!-- dropdown ends -->
-  <a href="javascript:void(0);">Client Details</a>
+  <!--dropdown-->
+  <button class="dropdown-btn-client">Client Info 
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a routerLink="/admin/addClient">Add Client</a>
+    <a href="javascript:void(0);">Client Details</a>
+  </div>
+  <!-- dropdown ends -->
   <a href="javascript:void(0);">Analyze Sell</a>
   <a routerLink="/home" (click)="signOut()">Sign out</a>
 </div>
 
 <div class="main">
-  <app-add-product *ngIf="showAddProduct"></app-add-product>
-  <app-sell-product *ngIf="showSellProduct"></app-sell-product>
-  
+  <div [@routeAnimations]="prepareRoute(outlet)" >
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
 </div>

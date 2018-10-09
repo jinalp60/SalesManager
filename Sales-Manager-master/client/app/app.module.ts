@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import { AdminRoutingModule } from './admin/admin-routing.module';
 
@@ -23,6 +26,7 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     LoginModule,
@@ -30,6 +34,7 @@ export function tokenGetter() {
     AdminModule,
     AdminRoutingModule,
     AppRoutingModule,
+    NgxPaginationModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

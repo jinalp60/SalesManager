@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
   //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/api/auth']}));
+//app.use(expressJwt({secret: 'todo-app-super-shared-secret',credentialsRequired: false}).unless({path: ['/api/auth']}));
 app.post('/addProduct',
     [check('productName').isLength({ min: 2 }),check('productId').isLength({ min: 1 })],
     function(req,res){
@@ -45,6 +45,50 @@ app.post('/addProduct',
         }
         
 });
+app.post('/addClient',
+    [check('clientName').isLength({ min: 2 }),check('phoneNo').isLength({ min: 1 })],
+    function(req,res){
+        console.log("inside add client");
+        const errors=validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({ errors: errors.array() });
+        }
+        else{
+            console.log("Client:",req.body);
+            db_api.insert_client_data(req.body).then(function(result){
+                console.log(result.affectedRows," rows inserted");
+                res.status(200).json({message:result.affectedRows+" rows inserted"});
+            });
+        }
+        
+});
+app.post('/sellProduct',
+    [check('phoneNo').isLength({ min: 2 })],
+    function(req,res){
+        console.log("inside add client");
+        const errors=validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({ errors: errors.array() });
+        }
+        else{
+            console.log("Client:",req.body);
+            db_api.insert_sell_product_data(req.body).then(function(result){
+                console.log(result.affectedRows," rows inserted");
+                res.status(200).json({message:result.affectedRows+" rows inserted"});
+            });
+        }
+        
+});
+
+app.get('/fetchProductDetails',function(req,res){
+        
+    db_api.fetch_product_details().then(function(data){
+        console.log("results of search query:",data);
+        res.status(200).json({result:data});
+    });
+        
+});
+
 app.get('/searchProductByName',
     [query('productName').isLength({min:2})],
     function(req,res){

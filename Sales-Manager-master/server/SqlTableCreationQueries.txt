@@ -1,2 +1,14 @@
 CREATE DATABASE SalesManager;
-CREATE TABLE IF NOT EXISTS products (productId VARCHAR(255), productName VARCHAR(255),quantity INT,basePrice INT,minPrice INT,maxPrice INT,PRIMARY KEY(productId));
+use SalesManager;
+CREATE TABLE IF NOT EXISTS products (productId VARCHAR(255), productName VARCHAR(255),quantity INT,basePrice INT,minPrice INT,maxPrice INT,PRIMARY KEY(productId,productName));
+
+CREATE TABLE IF NOT EXISTS clients (clientId INT AUTO_INCREMENT, clientName VARCHAR(255),phoneNo INT,PRIMARY KEY(clientId,phoneNo));
+
+CREATE TABLE IF NOT EXISTS soldProducts (id INT AUTO_INCREMENT, phoneNo INT, productName VARCHAR(255),quantity INT,sellingPrice INT,moneyPaid INT,sellDate DATE,PRIMARY KEY(id));
+
+
+
+fetch queries
+SELECT * from products;
+SELECT * from clients;
+SELECT * from soldProducts;
