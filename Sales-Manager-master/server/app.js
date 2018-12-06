@@ -28,22 +28,104 @@ app.use(function (req, res, next) {
   //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+/*
+app.use(function(req,res,next){
+    // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {   
+        if (err) {
+            return res.json({ success: false, message: 'Failed to authenticate token.' });     
+        } else {
+            // if everything is good, save to request for use in other routes
+            req.decoded = decoded;         next();
+        }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+
+  }
+});*/
+let validateToken=(req)=>{
+    //console.log("req:",req);
+    const token = req.headers.authorization;
+    console.log("val token",token);
+    let resu= false;
+    // decode token
+    if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, 'todo-app-super-shared-secret', function(err, decoded) {   
+        if (err) {
+            console.log("failed to authorize token");
+            
+            //return res.json({ success: false, message: 'Failed to authenticate token.' });     
+        } else {
+            // if everything is good, save to request for use in other routes
+            //req.decoded = decoded;     
+            console.log("decoded:",decoded);
+            //next();
+            resu=true;
+            
+        }
+    });
+
+  }
+  return resu;
+}
+/*
 //app.use(expressJwt({secret: 'todo-app-super-shared-secret',credentialsRequired: false}).unless({path: ['/api/auth']}));
 app.post('/addProduct',
     [check('productName').isLength({ min: 2 }),check('productId').isLength({ min: 1 })],
     function(req,res){
-        const errors=validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(422).json({ errors: errors.array() });
+        if(validateToken(req)){
+            const errors=validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({ errors: errors.array() });
+            }
+            else{
+                console.log("Product:",req.body);
+                db_api.insert_product_data(req.body).then(function(result){
+                    console.log(result.affectedRows," rows inserted");
+                    res.status(200).json({message:result.affectedRows+" rows inserted"});
+                });
+            }
         }
         else{
-            console.log("Product:",req.body);
-            db_api.insert_product_data(req.body).then(function(result){
+            res.status(200).json({message:"Invalid token"});
+        }
+});*/
+app.post('/addProduct',
+    //[check('productName').isLength({ min: 2 }),check('productId').isLength({ min: 1 })],
+    function(req,res){
+        //console.log(validateToken(req));
+        let resu=validateToken(req);
+        console.log("resu:",resu)
+        if(resu){
+            console.log("valid token");
+            //const errors=validationResult(req);
+
+            console.log("Product:",req.body.newProduct);
+            db_api.insert_product_data(req.body.newProduct).then(function(result){
                 console.log(result.affectedRows," rows inserted");
                 res.status(200).json({message:result.affectedRows+" rows inserted"});
             });
+            
         }
-        
+        else{
+            console.log("invalid token");
+            res.status(200).json({message:"Invalid token"});
+        }
 });
 app.post('/addClient',
     [check('clientName').isLength({ min: 2 }),check('phoneNo').isLength({ min: 1 })],
@@ -112,7 +194,8 @@ app.post('/api/auth', function(req, res) {
     if(!user || body.password != 'todo') return res.sendStatus(401);*/
     if(body.username=='admin' && body.password=='admin'){
         console.log("success if");
-        var token = jwt.sign({userID: 1}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
+        let token = jwt.sign({userID: 1}, 'todo-app-super-shared-secret', {expiresIn: '30m'});
+        console.log("token:",token)
         res.send({token});
     }
     else{

@@ -1,3 +1,4 @@
+//C:\Program Files\MySQL\MySQL Server 5.5\bin> mysql -u root -p
 CREATE DATABASE SalesManager;
 use SalesManager;
 CREATE TABLE IF NOT EXISTS products (productId VARCHAR(255), productName VARCHAR(255),quantity INT,basePrice INT,minPrice INT,maxPrice INT,PRIMARY KEY(productId,productName));

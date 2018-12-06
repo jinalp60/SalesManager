@@ -15,7 +15,9 @@ export class LoginServiceService {
   getUser(){
     return this.user;
   }
+
   signInGoogleService(){
+    
     console.log("google service called");
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
     
@@ -25,12 +27,18 @@ export class LoginServiceService {
       console.log("UserData:",this.user);
       
       if(this.signInVarResult){
-        console.log("navigated");
-        this.router.navigate(['/admin']);
+        //console.log("navigated");
+        //this.router.navigate(['/admin']);
+        
+        this.authenticateUserLogin('admin','admin').subscribe(
+          result => this.router.navigate(['admin']),
+          err => console.log("could not authenticate"));
+      
       }
     });
     
   }
+  
   signInFacebookService(){
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
     this.authService.authState.subscribe((user) => {
@@ -57,8 +65,8 @@ export class LoginServiceService {
     
   }
   authenticateUserLogin(username,password):Observable<boolean>{
-   
-    return this.http.post<{token: string}>('http://localhost:8000/api/auth', {username: username, password: password})
+    
+    return this.http.post<{token: string}>('http://localhost:8000/api/auth',{username, password})
       .pipe(
         map(result => {
           console.log("service result:",result);
