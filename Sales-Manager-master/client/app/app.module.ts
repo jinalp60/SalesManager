@@ -35,6 +35,7 @@ export function tokenGetter() {
     AdminRoutingModule,
     AppRoutingModule,
     NgxPaginationModule,
+    
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -13,6 +13,7 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { AdminServiceService } from './admin-service.service';
 import { AddClientComponent } from './add-client/add-client.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
     NgxPaginationModule,
     Ng2SearchPipeModule
   ],
-  declarations: [AdminPageComponent, SellProductComponent, AddProductComponent, AddClientComponent, ProductDetailsComponent],
+  declarations: [AdminPageComponent, SellProductComponent, AddProductComponent, AddClientComponent, ProductDetailsComponent, CustomerDetailsComponent],
   providers:[AdminServiceService]
 })
 export class AdminModule { }
