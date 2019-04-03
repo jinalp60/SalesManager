@@ -1,6 +1,7 @@
-const Sequelize = require('sequelize');
+//const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const server=require('http').createServer(app);
 const routes = require("./routes"); 
 
@@ -11,11 +12,11 @@ app.use(bodyParser.json({
   limit: 102410241024,
   extended: true
 }));
-
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
-  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
 
@@ -24,17 +25,7 @@ app.use('/', routes);
 //var redisClient = require('redis').createClient;
 //var redis = redisClient(6379, 'localhost');
 
-const sequelize = new Sequelize('salesmanager', 'postgres', 'root', {
-  host: 'localhost',
-  dialect: 'postgres',
 
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  },
-});
 /*
 const People = require('./dbmigration/models/people')(sequelize);
 createPeople = async()=>{

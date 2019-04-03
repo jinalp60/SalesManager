@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from '../Model/client';
+import { Customer } from '../Model/customer';
 import { AdminServiceService } from '../admin-service.service';
 @Component({
   selector: 'app-add-client',
@@ -7,21 +7,21 @@ import { AdminServiceService } from '../admin-service.service';
   styleUrls: ['./add-client.component.css']
 })
 export class AddClientComponent implements OnInit {
-  newClient:Client=new Client();
+  newCustomer:Customer =new Customer();
   constructor(private adminService: AdminServiceService) { }
 
   ngOnInit() {
   }
-  addClient(){
-    console.log("add Client",this.newClient);
+  addCustomer(){
+    console.log("add Customer",this.newCustomer);
     //call service and save this product
-    this.adminService.addClientService(this.newClient).subscribe(data=>{
+    this.adminService.addCustomerService(this.newCustomer).subscribe(data=>{
       console.log("success",data);
     },
     error=>{
       console.log("error");
     });
     //resetting the form
-    this.newClient=new Client();
+    this.newCustomer=new Customer();
   }
 }

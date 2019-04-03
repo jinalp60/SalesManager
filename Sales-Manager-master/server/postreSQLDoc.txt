@@ -1,9 +1,17 @@
 //C:\Program Files\PostgreSQL\10\bin>psql -U postgres -W 
 //password is root for user postgres
-
+//password is postgres for user postgres in new laptop
 
 \l to list the databases; 
 \c testdb; \\to connect to the DB testdb
-\dt; \\to list all d tables present in testdb 
+\dt; \\to list all d tables present in testdb
+\d tablename; \\to describe table schema
 //https://www.postgresql.org/message-id/E0D19281-7EE6-4753-B704-0A758E5A5448%40pgedit.com
 postgres> SELECT * FROM "public"."People" //public is the schema name here and double quote is manadatory
+
+
+
+
+for a new project:
+create db salesmanager 
+and then from server/dbmigration folder run command : ../../node_modules/.bin/sequelize db:migrate

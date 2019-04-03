@@ -7,14 +7,14 @@
     <div class="col-md-4">
       <div class="form-container">
         <h3>Add Client</h3>
-        <form (ngSubmit)="addClient()" class="formStart">
+        <form (ngSubmit)="addCustomer()" class="formStart">
           <div>
-            <label for="newClient.clientName">Client Name</label>
-            <input type="text" id="newClient.clientName" [(ngModel)]="newClient.clientName" name="newClient.clientName"/>
+            <label for="newCustomer.customerName">Client Name</label>
+            <input type="text" id="newCustomer.customerName" [(ngModel)]="newCustomer.customerName" name="newCustomer.customerName"/>
           </div>
           <div>
-            <label for="newClient.phoneNo">Phone Number</label>
-            <input type="number" id="newClient.phoneNo" [(ngModel)]="newClient.phoneNo" name="newClient.phoneNo"/>
+            <label for="newCustomer.phoneNumber">Phone Number</label>
+            <input type="number" id="newCustomer.phoneNumber" [(ngModel)]="newCustomer.phoneNumber" name="newCustomer.phoneNumber"/>
           </div>
           <div>
               <button type="submit">Click me</button>

@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const validateToken=(req,res,next)=>{
     //console.log("req:",req);
-    console.log("validating token");
-    const token = req.headers.authorization;
+    console.log("validating token.");
+    const token = req.body.token || req.headers.authorization;
     console.log("val token",token);
-    let resu= false;
+    //let resu= false;
     // decode token
     if (token) {
 
